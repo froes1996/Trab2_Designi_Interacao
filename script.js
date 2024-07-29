@@ -13,11 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let obstacleInterval;
     let isGameActive = false;
 
+    let touchStartX = 0;
+    let touchStartY = 0;
+
     highscoreDisplay.textContent = highscore;
 
     startBtn.addEventListener('click', startGame);
     restartBtn.addEventListener('click', restartGame);
     document.addEventListener('keydown', movePlayer);
+
+    // Adicionando eventos de toque
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     function startGame() {
         isGameActive = true;
@@ -33,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
         starInterval = setInterval(createStar, 2000);
         obstacleInterval = setInterval(createObstacle, 3000);
     }
-    
 
     function restartGame() {
         clearInterval(gameInterval);
@@ -50,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const playerRect = player.getBoundingClientRect();
         const containerRect = document.querySelector('.container').getBoundingClientRect();
-        
+
         switch (e.key) {
             case 'ArrowUp':
                 if (playerRect.top > containerRect.top) {
@@ -91,19 +97,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const playerRect = player.getBoundingClientRect();
         const containerRect = document.querySelector('.container').getBoundingClientRect();
 
+        // Ajustar sensibilidade para melhor controle
+        const moveSensitivity = 5; // Pode ajustar esse valor conforme necessário
+
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // Horizontal movement
             if (deltaX > 0 && playerRect.right < containerRect.right) {
-                player.style.left = `${player.offsetLeft + 10}px`;
+                player.style.left = `${player.offsetLeft + moveSensitivity}px`;
             } else if (deltaX < 0 && playerRect.left > containerRect.left) {
-                player.style.left = `${player.offsetLeft - 10}px`;
+                player.style.left = `${player.offsetLeft - moveSensitivity}px`;
             }
         } else {
-            // Vertical movement
             if (deltaY > 0 && playerRect.bottom < containerRect.bottom) {
-                player.style.top = `${player.offsetTop + 10}px`;
+                player.style.top = `${player.offsetTop + moveSensitivity}px`;
             } else if (deltaY < 0 && playerRect.top > containerRect.top) {
-                player.style.top = `${player.offsetTop - 10}px`;
+                player.style.top = `${player.offsetTop - moveSensitivity}px`;
             }
         }
 
@@ -164,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startBtn.style.display = 'none';
         restartBtn.style.display = 'block';
 
-        
         if (score > highscore) {
             highscore = score;
             localStorage.setItem('highscore', highscore);
