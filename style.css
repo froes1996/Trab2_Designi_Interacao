@@ -19,6 +19,7 @@ body {
     height: 100vh;
     background-color: #282c34;
     overflow: hidden;
+    touch-action: none;
 }
 
 .game-area {
