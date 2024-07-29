@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let obstacleInterval;
     let isGameActive = false;
 
-    // Variáveis para armazenar as posições de toque iniciais
     let touchStartX = 0;
     let touchStartY = 0;
 
@@ -23,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     restartBtn.addEventListener('click', restartGame);
     document.addEventListener('keydown', movePlayer);
 
-    // Adiciona os event listeners para toque
     document.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchmove', handleTouchMove);
 
@@ -83,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTouchStart(e) {
-        // Previne o comportamento padrão para que a página não seja rolada
         e.preventDefault();
 
         const touch = e.touches[0];
@@ -94,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleTouchMove(e) {
         if (!isGameActive) return;
 
-        // Previne o comportamento padrão para que a página não seja rolada
         e.preventDefault();
 
         const touch = e.touches[0];
@@ -105,14 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const containerRect = document.querySelector('.container').getBoundingClientRect();
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // Movimento horizontal
             if (deltaX > 0 && playerRect.right < containerRect.right) {
                 player.style.left = `${player.offsetLeft + 10}px`;
             } else if (deltaX < 0 && playerRect.left > containerRect.left) {
                 player.style.left = `${player.offsetLeft - 10}px`;
             }
         } else {
-            // Movimento vertical
             if (deltaY > 0 && playerRect.bottom < containerRect.bottom) {
                 player.style.top = `${player.offsetTop + 10}px`;
             } else if (deltaY < 0 && playerRect.top > containerRect.top) {
@@ -120,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Atualiza as posições de toque para o próximo cálculo
+
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
     }
