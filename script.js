@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let obstacleInterval;
     let isGameActive = false;
 
+    // Variáveis para armazenar as posições de toque iniciais
     let touchStartX = 0;
     let touchStartY = 0;
 
@@ -22,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     restartBtn.addEventListener('click', restartGame);
     document.addEventListener('keydown', movePlayer);
 
-    // Adicionando eventos de toque
-    document.addEventListener('touchstart', handleTouchStart, { passive: true });
-    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+    // Adiciona os event listeners para toque
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchmove', handleTouchMove);
 
     function startGame() {
         isGameActive = true;
@@ -56,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const playerRect = player.getBoundingClientRect();
         const containerRect = document.querySelector('.container').getBoundingClientRect();
-
+        
         switch (e.key) {
             case 'ArrowUp':
                 if (playerRect.top > containerRect.top) {
@@ -82,6 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTouchStart(e) {
+        // Previne o comportamento padrão para que a página não seja rolada
+        e.preventDefault();
+
         const touch = e.touches[0];
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
@@ -90,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleTouchMove(e) {
         if (!isGameActive) return;
 
+        // Previne o comportamento padrão para que a página não seja rolada
+        e.preventDefault();
+
         const touch = e.touches[0];
         const deltaX = touch.clientX - touchStartX;
         const deltaY = touch.clientY - touchStartY;
@@ -97,23 +104,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const playerRect = player.getBoundingClientRect();
         const containerRect = document.querySelector('.container').getBoundingClientRect();
 
-        // Ajustar sensibilidade para melhor controle
-        const moveSensitivity = 5; // Pode ajustar esse valor conforme necessário
-
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Movimento horizontal
             if (deltaX > 0 && playerRect.right < containerRect.right) {
-                player.style.left = `${player.offsetLeft + moveSensitivity}px`;
+                player.style.left = `${player.offsetLeft + 10}px`;
             } else if (deltaX < 0 && playerRect.left > containerRect.left) {
-                player.style.left = `${player.offsetLeft - moveSensitivity}px`;
+                player.style.left = `${player.offsetLeft - 10}px`;
             }
         } else {
+            // Movimento vertical
             if (deltaY > 0 && playerRect.bottom < containerRect.bottom) {
-                player.style.top = `${player.offsetTop + moveSensitivity}px`;
+                player.style.top = `${player.offsetTop + 10}px`;
             } else if (deltaY < 0 && playerRect.top > containerRect.top) {
-                player.style.top = `${player.offsetTop - moveSensitivity}px`;
+                player.style.top = `${player.offsetTop - 10}px`;
             }
         }
 
+        // Atualiza as posições de toque para o próximo cálculo
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
     }
