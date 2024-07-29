@@ -28,10 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
         restartBtn.style.display = 'none';
         player.style.top = '50%';
         player.style.left = '50%';
+
         gameInterval = setInterval(updateGame, 1000 / 60);
         starInterval = setInterval(createStar, 2000);
         obstacleInterval = setInterval(createObstacle, 3000);
     }
+    
 
     function restartGame() {
         clearInterval(gameInterval);
@@ -39,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(obstacleInterval);
         document.querySelectorAll('.star').forEach(star => star.remove());
         document.querySelectorAll('.obstacle').forEach(obstacle => obstacle.remove());
+
         startGame();
     }
 
@@ -70,6 +73,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 break;
         }
+    }
+
+    function handleTouchStart(e) {
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+    }
+
+    function handleTouchMove(e) {
+        if (!isGameActive) return;
+
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+
+        const playerRect = player.getBoundingClientRect();
+        const containerRect = document.querySelector('.container').getBoundingClientRect();
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Horizontal movement
+            if (deltaX > 0 && playerRect.right < containerRect.right) {
+                player.style.left = `${player.offsetLeft + 10}px`;
+            } else if (deltaX < 0 && playerRect.left > containerRect.left) {
+                player.style.left = `${player.offsetLeft - 10}px`;
+            }
+        } else {
+            // Vertical movement
+            if (deltaY > 0 && playerRect.bottom < containerRect.bottom) {
+                player.style.top = `${player.offsetTop + 10}px`;
+            } else if (deltaY < 0 && playerRect.top > containerRect.top) {
+                player.style.top = `${player.offsetTop - 10}px`;
+            }
+        }
+
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
     }
 
     function updateGame() {
@@ -124,6 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
         message.textContent = 'Game Over';
         startBtn.style.display = 'none';
         restartBtn.style.display = 'block';
+
+        
         if (score > highscore) {
             highscore = score;
             localStorage.setItem('highscore', highscore);
