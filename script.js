@@ -89,9 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleTouchMove(e) {
-        if (!isGameActive) return;
-
         e.preventDefault();
+        if (!isGameActive) return;
 
         const touch = e.touches[0];
         const deltaX = touch.clientX - touchStartX;
