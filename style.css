@@ -11,7 +11,7 @@ body {
     height: 100vh;
     font-family: Arial, sans-serif;
     touch-action: none;
-    overflow: hidden;
+    
 }
 
 .container {
@@ -19,7 +19,7 @@ body {
     width: 100%;
     max-width: 600px;
     height: 100vh;
-    background-color: #ffffff;
+    background-color: #282c34;
     overflow: hidden;
     touch-action: none;
 }
