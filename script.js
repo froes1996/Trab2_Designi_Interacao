@@ -101,15 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             if (deltaX > 0 && playerRect.right < containerRect.right) {
-                player.style.left = `${player.offsetLeft + 4}px`;
+                player.style.left = `${player.offsetLeft + 5}px`;
             } else if (deltaX < 0 && playerRect.left > containerRect.left) {
-                player.style.left = `${player.offsetLeft - 4}px`;
+                player.style.left = `${player.offsetLeft - 5}px`;
             }
         } else {
             if (deltaY > 0 && playerRect.bottom < containerRect.bottom) {
-                player.style.top = `${player.offsetTop + 4}px`;
+                player.style.top = `${player.offsetTop + 5}px`;
             } else if (deltaY < 0 && playerRect.top > containerRect.top) {
-                player.style.top = `${player.offsetTop - 4}px`;
+                player.style.top = `${player.offsetTop - 5}px`;
             }
         }
 
